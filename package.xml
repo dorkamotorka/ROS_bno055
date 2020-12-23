@@ -5,6 +5,9 @@
   <description>A ROS package containing a Linux hardware driver for Adafruit's BNO055 9-DoF Orientation Sensor Breakout and a ROS node wrapper that exposes the sensor driver to the ROS ecosystem.</description>
 
   <author email="tp@ubiquityrobotics.com">Teodor Janez Podobnik</author>
+  <maintainer email="tp@ubiquityrobotics.com">Teodor Janez Podobnik</maintainer>
+
+  <license>TODO</license>
 
   <buildtool_depend>catkin</buildtool_depend>
 

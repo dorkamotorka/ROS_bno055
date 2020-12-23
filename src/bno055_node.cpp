@@ -27,6 +27,7 @@ public:
   // Initialize BNO055 sensor
   void init() {
     bno055_driver_.initI2c(i2c_bus.c_str(), i2c_addr);
+    bno055_driver_.reset();
 
     selfCalibrate();
 
