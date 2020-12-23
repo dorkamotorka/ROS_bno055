@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+  <node name="bno055_node" pkg="ros_bno055" type="bno055_node" respawn="false" output="screen">
+	<param name="device" type="string" value="/dev/i2c-3"/>
+        <param name="address" type="int" value="40"/> <!-- 0x28 == 40 is the default for BNO055 -->
+        <param name="frame_id" type="string" value="imu"/>
+	<!-- 
+	   config    = configuration mode
+           acconly   = accelerometer only
+           magonly   = magnetometer only
+           gyronly   = gyroscope only
+           accmag    = accelerometer + magnetometer
+           accgyro   = accelerometer + gyroscope
+           maggyro   = magetometer + gyroscope
+           amg       = accelerometer + magnetometer + gyroscope
+           imu       = accelerometer + gyroscope fusion -> rel. orientation
+           compass   = accelerometer + magnetometer fusion -> abs. orientation
+           m4g       = accelerometer + magnetometer fusion -> rel. orientation
+           ndof      = accelerometer + mag + gyro fusion -> abs. orientation
+           ndof_fmc  = ndof, using fast magnetometer calibration (FMC)
+	-->
+	<param name="operation_mode" type="string" value="imu" />
+	<!--  
+	  normal     = required sensors and MCU always on (default)
+          low        = enter sleep mode during motion inactivity
+          suspend    = sensor paused, all parts put to sleep
+	-->
+	<param name="power_mode" type="string" value="normal" />
+  </node>
+</launch>
