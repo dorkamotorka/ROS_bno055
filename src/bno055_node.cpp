@@ -27,7 +27,6 @@ public:
   // Initialize BNO055 sensor
   void init() {
     bno055_driver_.initI2c(i2c_bus.c_str(), i2c_addr);
-    bno055_driver_.reset();
 
     selfCalibrate();
 
@@ -61,9 +60,7 @@ public:
 		bno055_driver_.data_.calib_stat_gyr_ == 3) return true;
 	    break;
 	case 0x07:
-	    if (bno055_driver_.data_.calib_stat_acc_ == 3 && 
-		bno055_driver_.data_.calib_stat_mag_ == 3 && 
-		bno055_driver_.data_.calib_stat_gyr_ == 3) return true;
+	    if (bno055_driver_.data_.calib_stat_sys_ == 3) return true;
 	    break;
 	case 0x08:
 	    if (bno055_driver_.data_.calib_stat_acc_ == 3 && 
@@ -78,14 +75,10 @@ public:
 		bno055_driver_.data_.calib_stat_mag_ == 3) return true;
 	    break;
 	case 0x0B:
-	    if (bno055_driver_.data_.calib_stat_acc_ == 3 && 
-		bno055_driver_.data_.calib_stat_mag_ == 3 && 
-		bno055_driver_.data_.calib_stat_gyr_ == 3) return true;
+	    if (bno055_driver_.data_.calib_stat_sys_ == 3) return true;
 	    break;
 	case 0x0C:
-	    if (bno055_driver_.data_.calib_stat_acc_ == 3 && 
-		bno055_driver_.data_.calib_stat_mag_ == 3 && 
-		bno055_driver_.data_.calib_stat_gyr_ == 3) return true;
+	    if (bno055_driver_.data_.calib_stat_sys_ == 3) return true;
 	    break;
     }
 
@@ -182,19 +175,31 @@ int main(int argc, char* argv[]) {
   bno055::Bno055Node bno055_node(nh_priv);
 
   int param_rate;
-  nh_priv.param("loop_rate", param_rate, (int)100);
   int calib_rate;
+  int calib_timeout;
+  nh_priv.param("loop_rate", param_rate, (int)100);
   nh_priv.param("calib_rate", calib_rate, (int)1);
+  nh_priv.param("calib_timeout", calib_timeout, (int)10);
 
   ros::Rate loop_rate(param_rate);
   ros::Rate calibration_rate(calib_rate);
+  ros::Duration timeout(calib_timeout);
+  ros::Time begin = ros::Time::now();
    
   bno055_node.init();
 
   while (ros::ok()) {
     // Always check if BNO055 sensor is calibrated.
-    if (bno055_node.isCalibrated()) bno055_node.publishData();
+    if (bno055_node.isCalibrated()) {
+	bno055_node.publishData();
+	begin = ros::Time::now();
+    }
     else {
+      if (ros::Time::now() - begin > timeout) {
+	ROS_ERROR("Could not calibrate the device - aborting.");
+	ros::shutdown();
+	exit(-1);
+      }
       ROS_WARN("Sensor not calibrated. Running self-calibration sequence...");
       bno055_node.selfCalibrate();
       calibration_rate.sleep();

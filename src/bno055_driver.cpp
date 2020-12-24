@@ -421,5 +421,6 @@ bool bno055::Bno055Driver::loadCalib() {
 
 bno055::Bno055Driver::~Bno055Driver()
 {
-  printf("BNO055 IMU driver destroyed.\n");  
+  if (!reset()) printf("Could not reset the device.");
+  printf("BNO055 IMU driver reseted and destroyed.\n");  
 }
