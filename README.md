@@ -1,7 +1,7 @@
 # ros_bno055
 ROS Driver for IMU BNO055
 
-  git clone --single-branch --branch kinetic-devel https://github.com/tp4348/ros_bno055.git
+  git clone --single-branch --branch master https://github.com/tp4348/ros_bno055.git
 
   cd .. 
 
