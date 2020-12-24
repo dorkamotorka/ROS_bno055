@@ -32,7 +32,7 @@ public:
 
     bno055_driver_.setOperationMode(operation_mode.c_str());
  }
-  
+
   // Check if BNO055 sensor is calibrated.
   bool isCalibrated() {
     switch(bno055_driver_.getOprMode()) {
@@ -48,44 +48,44 @@ public:
 	    if (bno055_driver_.data_.calib_stat_gyr_ == 3) return true;
 	    break;
 	case 0x04:
-	    if (bno055_driver_.data_.calib_stat_acc_ == 3 && 
+	    if (bno055_driver_.data_.calib_stat_acc_ == 3 &&
 		bno055_driver_.data_.calib_stat_mag_ == 3) return true;
 	    break;
 	case 0x05:
-	    if (bno055_driver_.data_.calib_stat_acc_ == 3 && 
+	    if (bno055_driver_.data_.calib_stat_acc_ == 3 &&
 		bno055_driver_.data_.calib_stat_gyr_ == 3) return true;
 	    break;
 	case 0x06:
-	    if (bno055_driver_.data_.calib_stat_mag_ == 3 && 
+	    if (bno055_driver_.data_.calib_stat_mag_ == 3 &&
 		bno055_driver_.data_.calib_stat_gyr_ == 3) return true;
 	    break;
 	case 0x07:
-	    if (bno055_driver_.data_.calib_stat_sys_ == 3 && 
-		bno055_driver_.data_.calib_stat_acc_ == 3 && 
+	    if (bno055_driver_.data_.calib_stat_sys_ == 3 &&
+		bno055_driver_.data_.calib_stat_acc_ == 3 &&
 		bno055_driver_.data_.calib_stat_gyr_ == 3 &&
 		bno055_driver_.data_.calib_stat_mag_ == 3) return true;
 	    break;
 	case 0x08:
-	    if (bno055_driver_.data_.calib_stat_acc_ == 3 && 
+	    if (bno055_driver_.data_.calib_stat_acc_ == 3 &&
 		bno055_driver_.data_.calib_stat_gyr_ == 3) return true;
 	    break;
 	case 0x09:
-	    if (bno055_driver_.data_.calib_stat_acc_ == 3 && 
+	    if (bno055_driver_.data_.calib_stat_acc_ == 3 &&
 		bno055_driver_.data_.calib_stat_mag_ == 3) return true;
 	    break;
 	case 0x0A:
-	    if (bno055_driver_.data_.calib_stat_acc_ == 3 && 
+	    if (bno055_driver_.data_.calib_stat_acc_ == 3 &&
 		bno055_driver_.data_.calib_stat_mag_ == 3) return true;
 	    break;
 	case 0x0B:
-	    if (bno055_driver_.data_.calib_stat_sys_ == 3 && 
-		bno055_driver_.data_.calib_stat_acc_ == 3 && 
+	    if (bno055_driver_.data_.calib_stat_sys_ == 3 &&
+		bno055_driver_.data_.calib_stat_acc_ == 3 &&
 		bno055_driver_.data_.calib_stat_gyr_ == 3 &&
 		bno055_driver_.data_.calib_stat_mag_ == 3) return true;
 	    break;
 	case 0x0C:
-	    if (bno055_driver_.data_.calib_stat_sys_ == 3 && 
-		bno055_driver_.data_.calib_stat_acc_ == 3 && 
+	    if (bno055_driver_.data_.calib_stat_sys_ == 3 &&
+		bno055_driver_.data_.calib_stat_acc_ == 3 &&
 		bno055_driver_.data_.calib_stat_gyr_ == 3 &&
 		bno055_driver_.data_.calib_stat_mag_ == 3) return true;
 	    break;
@@ -93,7 +93,7 @@ public:
 
     return false;
 }
- 
+
   // Self-calibrate BNO055 sensor.
   void selfCalibrate() {
     ROS_INFO("Self calibrating...");
@@ -113,12 +113,12 @@ public:
     if (bno055_driver_.getLia() < 0) ROS_ERROR("Failed to get linear acceleration data.");
     if (bno055_driver_.getGrv() < 0) ROS_ERROR("Failed to get gravity vector data.");
     if (bno055_driver_.getTemp() < 0) ROS_ERROR("Failed to get temperature data.");
-   
+
     // Construct ROS messages.
     ros::Time time_stamp = ros::Time::now();
 
     imu_msg_.header.stamp = time_stamp;
-    imu_msg_.orientation.x = bno055_driver_.data_.qua_x_; 
+    imu_msg_.orientation.x = bno055_driver_.data_.qua_x_;
     imu_msg_.orientation.y = bno055_driver_.data_.qua_y_;
     imu_msg_.orientation.z = bno055_driver_.data_.qua_z_;
     imu_msg_.orientation.w = bno055_driver_.data_.qua_w_;
@@ -128,7 +128,7 @@ public:
     imu_msg_.linear_acceleration.x = bno055_driver_.data_.lia_x_;
     imu_msg_.linear_acceleration.y = bno055_driver_.data_.lia_y_;
     imu_msg_.linear_acceleration.z = bno055_driver_.data_.lia_z_;
-    
+
     mag_msg_.header.stamp = time_stamp;
     mag_msg_.magnetic_field.x = bno055_driver_.data_.mag_x_;
     mag_msg_.magnetic_field.y = bno055_driver_.data_.mag_y_;
@@ -146,7 +146,7 @@ public:
     grv_msg_.x = bno055_driver_.data_.grv_x_;
     grv_msg_.y = bno055_driver_.data_.grv_y_;
     grv_msg_.z = bno055_driver_.data_.grv_z_;
-    
+
     imu_pub_.publish(imu_msg_);
     mag_pub_.publish(mag_msg_);
     temp_pub_.publish(temp_msg_);
@@ -183,9 +183,7 @@ int main(int argc, char* argv[]) {
   ros::NodeHandle nh_priv("~");
   bno055::Bno055Node bno055_node(nh_priv);
 
-  int param_rate;
-  int calib_rate;
-  int calib_timeout;
+  int param_rate, calib_rate, calib_timeout;
   nh_priv.param("output_rate", param_rate, (int)100);
   nh_priv.param("calib_rate", calib_rate, (int)1);
   nh_priv.param("calib_timeout", calib_timeout, (int)10);
@@ -194,7 +192,7 @@ int main(int argc, char* argv[]) {
   ros::Rate calibration_rate(calib_rate);
   ros::Duration timeout(calib_timeout);
   ros::Time begin = ros::Time::now();
-   
+
   bno055_node.init();
 
   while (ros::ok()) {
@@ -213,7 +211,7 @@ int main(int argc, char* argv[]) {
       bno055_node.selfCalibrate();
       calibration_rate.sleep();
     }
-      
+
     ros::spinOnce();
     loop_rate.sleep();
   }

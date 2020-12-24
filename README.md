@@ -1,6 +1,8 @@
 # ros_bno055
 This is a C++ ROS Driver for operating a BOSCH BNO055 IMU sensor via I2C on a Raspberry Pi.
 
+It was
+
 ## Dependencies
 
 ```
@@ -43,8 +45,26 @@ roslaunch ros_bno055 bno055_imu.launch
 ```
 Before launching, parameters in .launch file should be set accordingly.
 
-## Repository Status
-Self calibration of the sensor currently only works for **imu, ndof and ndof_fmc** modes, therefore any other cannot be used. This is under progress and will be updated.
+## Parameters
+
+* **device** -- the path to the i2c device. Default is /dev/i2c-1. Use i2cdetect in the i2c-tools package to find out which bus your IMU is on.
+* **address** -- the i2c address of the IMU. Default is 0x28.
+* **frame_id** -- frame_id for ROS tf. Default is "imu".
+* **operation_mode** -- the i2c operation mode of the IMU. Default is imu.
+* **power_mode** -- the i2c power mode of the IMU. Default is normal.
+* **output_rate** -- Sensor data output rate of the IMU. Default is 30(Hz).
+* **calib_rate** --  Self calibration rate of the IMU. Default is 1(Hz).
+* **calib_timeout** -- Timeout for self calibration until it shutdowns the IMU. Default is 20 seconds.
+
+## Outputs topics:
+* **~/imu/data** (sensor\_msgs/Imu) -- fused IMU data
+* **~/orientation_euler** (ros\_bno055/OrientationEuler) -- raw accelerometer data
+* **~/magnetic_field** (sensor\_msgs/MagneticField) -- raw magnetic field data
+* **~/temperature** (sensor\_msgs/Temperature) -- temperature data
+* **~/gravity** (ros\_bno055/Gravity) -- gravity data
+
+## Usage notes
+Self calibration of the sensor currently only works for **imu, ndof and ndof_fmc** operation modes, therefore any other cannot be used. This is under progress and will be updated.
 
 For more information checkout the sensor data sheet: 
 https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bno055-ds000.pdf
