@@ -28,7 +28,7 @@
           suspend    = sensor paused, all parts put to sleep
 	-->
 	<param name="power_mode" type="string" value="normal" />
-	<param name="loop_rate" type="int" value="30" />
+	<param name="output_rate" type="int" value="30" />
 	<param name="calib_rate" type="int" value="1" />
 	<param name="calib_timeout" type="int" value="10" />
   </node>
