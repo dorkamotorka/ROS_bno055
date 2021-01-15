@@ -1,0 +1,19 @@
+# Output data rate
+ output_rate: 30
+
+# Calibration rate
+ calib_rate: 1
+
+# Maximum duration of calibration
+ calib_timeout: 10
+
+# If set to true program will output calibration profile
+
+# Offset values
+ accelerometer_offset: [65527, 65527, 0]
+ magnetometer_offset: [196, 65521, 64968]
+ gyroscope_offset: [65534, 65534, 1]
+
+# Radius
+ accelerometer_radius: 1000 
+ magnetometer_radius: 805 
