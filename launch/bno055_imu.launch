@@ -32,13 +32,5 @@
 	<param name="calib_rate" type="int" value="1" />
 	<param name="calib_timeout" type="int" value="10" />
 	<param name="calibration_profile" type="bool" value="true" />
-	<param name="offset">
-		[[65527, 65527, 0], <!-- Accelerometer offset -->
-		[196, 65521, 64968], <!-- Magnetometer offset -->
-		[65534, 65534, 1]] <!-- Gyroscope offset -->
-	</param>
-	<param name="radius">
-		[1000, 805] <!-- Accelerometer, Magnetometer radius -->
-	</param>
   </node>
 </launch>
