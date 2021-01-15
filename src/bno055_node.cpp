@@ -32,6 +32,8 @@ namespace bno055 {
     }
 
   // Check if BNO055 sensor is calibrated.
+  // BUG: System Calibration Indicator is a bit flaky, does not effect data accuracy
+  // At least Gyro and Magnetometer should be calibrated - TODO: TEST!
   bool isCalibrated() {
     switch(bno055_driver.getOprMode()) {
 	case 0x00:
@@ -199,6 +201,7 @@ int main(int argc, char* argv[]) {
     // Always check if BNO055 sensor is calibrated.
     if (bno055_node.isCalibrated()) {
 	bno055_node.publishData();
+        // TODO: Exit program if calibration_profile set to true!
 	begin = ros::Time::now();
     }
     else {

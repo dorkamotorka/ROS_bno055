@@ -385,7 +385,11 @@ bool bno055::Bno055Driver::loadCalib() {
 
   setConfigMode();
 
-  // Predetermined offsets and radii values - Should be tuned!
+  // TODO: - Should be tuned! - depending on the configuration(2g,4g,.., dps, ..) - Page 31 Data sheet
+  // TODO: This registers should be read after full calibration of the systems and reused!
+  // TODO: This values get overwriten and updated with self-internal calibration
+  // Predetermined offsets and radii values
+  // TODO: Move to launch file or .yaml!
   __u16 acc_offset[3] = {65527, 65527, 0};
   __u16 mag_offset[3] = {196, 65521, 64968};
   __u16 gyr_offset[3] = {65534, 65534, 1};
